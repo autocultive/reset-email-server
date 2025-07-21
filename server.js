@@ -7,7 +7,8 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const serviceAccount = JSON.parse(process.env.GOOGLE_SERVICE_KEY);
+const serviceAccount = JSON.parse(process.env.GOOGLE_SERVICE_KEY.replace(/\\n/g, '\n'));
+
 
 
 // 🔐 Initialize Firebase Admin
