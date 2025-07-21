@@ -7,7 +7,9 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const serviceAccount = JSON.parse(process.env.GOOGLE_SERVICE_KEY.replace(/\\n/g, '\n'));
+const decoded = Buffer.from(process.env.GOOGLE_SERVICE_KEY_BASE64, 'base64').toString('utf8');
+const serviceAccount = JSON.parse(decoded);
+
 
 
 
