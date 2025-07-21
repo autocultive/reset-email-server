@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Teko:wght@600&display=swap" rel="stylesheet">
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0f0f0f;
+      color: white;
+    }
+    .hero {
+      background-image: url('images/banner/performance-car.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      height: 260px;
+      position: relative;
+    }
+    .hero::before {
+      content: '';
+      background-color: rgba(0, 0, 0, 0.65);
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+    .glass {
+      backdrop-filter: blur(8px);
+      background-color: rgba(17, 17, 17, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+  </style>
+</head>
+<body class="antialiased">
+
+<!-- Header -->
+<div class="relative bg-black border-b border-gray-800 py-4 px-4 md:px-6 lg:px-10 sticky top-0 z-50 flex items-center justify-center">
+  <a href="index.html" class="absolute left-6 text-yellow-300 text-sm font-semibold hover:text-yellow-200 transition">← Back to Home</a>
+  <span class="text-2xl md:text-3xl font-extrabold text-yellow-400 uppercase tracking-[0.25em] animate-pulse drop-shadow-[0_0_5px_#facc15]" style="font-family: 'Teko', sans-serif;">AUTOCULTIVE</span>
+</div>
+
+<!-- Hero -->
+<section class="hero flex items-center justify-center text-center text-white mb-4">
+  <div class="hero-content">
+    <h2 class="text-4xl font-extrabold text-yellow-400">Sign In to Access Your Garage</h2>
+  </div>
+</section>
+
+<!-- Login Card -->
+<div class="w-full max-w-md mx-auto glass p-8 rounded-xl border border-gray-700 shadow-lg shadow-yellow-500 z-10 relative">
+  <h2 class="text-3xl font-bold text-yellow-400 mb-6 text-center">🚗 Log In. Build. Ride.</h2>
+
+  <form id="login-form" class="space-y-5" onsubmit="login(event)">
+    <input type="email" id="email" placeholder="Email" class="w-full p-3 bg-gray-900 border border-gray-700 text-white rounded focus:outline-none focus:ring-2 focus:ring-yellow-400" required>
+    <div class="relative">
+      <input type="password" id="password" placeholder="Password" class="w-full p-3 bg-gray-900 border border-gray-700 text-white rounded focus:outline-none focus:ring-2 focus:ring-yellow-400" required>
+      <button type="button" onclick="togglePassword()" class="absolute right-3 top-3 text-yellow-400 hover:text-white text-lg">👁</button>
+    </div>
+    <a href="#" onclick="resetPassword()" class="text-sm text-yellow-400 hover:text-yellow-300 block text-right">Forgot Password?</a>
+    <button type="submit" class="w-full bg-yellow-400 text-black py-3 rounded font-semibold hover:bg-yellow-300 transition">Login</button>
+  </form>
+
+  <!-- OR Divider -->
+  <div class="flex items-center my-6">
+    <div class="flex-grow border-t border-gray-700"></div>
+    <span class="mx-4 text-gray-400 text-sm">OR</span>
+    <div class="flex-grow border-t border-gray-700"></div>
+  </div>
+
+  <!-- Google Login Only -->
+  <div class="space-y-3">
+    <button onclick="loginWithGoogle()" class="w-full flex items-center justify-center gap-3 py-2 rounded bg-white text-black font-medium hover:shadow-lg transition">
+      <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5" alt="Google" />
+      Continue with Google
+    </button>
+  </div>
+
+  <p class="text-center text-sm text-gray-400 mt-6">
+    First time here? <a href="signup.html" class="text-yellow-400 hover:text-yellow-300 font-medium underline">Create an Account</a>
+  </p>
+</div>
+
+<!-- Footer -->
+<footer class="text-center text-gray-500 text-sm mt-16 mb-6">
+  &copy; 2025 CarParts Marketplace. Powered by ⚙️ and Speed.
+</footer>
+
+<!-- Firebase Script -->
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyCt7256M7ocWrUk1BKXEhkwAbXxTQzoaEE",
+    authDomain: "autocultive-b70df.firebaseapp.com",
+    projectId: "autocultive-b70df",
+    storageBucket: "autocultive-b70df.appspot.com",
+    messagingSenderId: "567543720829",
+    appId: "1:567543720829:web:682f549c40773ff3b5ba14",
+    measurementId: "G-SDS626SJQW"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+
+  function login(e) {
+    e.preventDefault();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+
+    auth.signInWithEmailAndPassword(email, password)
+      .then(() => {
+        alert("✅ Logged in!");
+        window.location.href = "index.html";
+      })
+      .catch(err => alert("❌ " + err.message));
+  }
+
+  function togglePassword() {
+    const pwd = document.getElementById("password");
+    pwd.type = pwd.type === "password" ? "text" : "password";
+  }
+
+  function loginWithGoogle() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    auth.signInWithPopup(provider)
+      .then(() => {
+        alert("✅ Google login successful!");
+        window.location.href = "index.html";
+      })
+      .catch(err => alert("❌ " + err.message));
+  }
+
+  function resetPassword() {
+    const email = prompt("📩 Enter your email to receive a password reset link:");
+    if (!email) return;
+    auth.sendPasswordResetEmail(email)
+      .then(() => {
+        alert("📧 Password reset email sent!");
+      })
+      .catch(err => alert("❌ " + err.message));
+  }
+</script>
+</body>
+</html>

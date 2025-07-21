@@ -1,0 +1,56 @@
+/* Base Styles */
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Category Button */
+.category-btn {
+  background: white;
+  border: 1px solid #dbeafe;
+  color: #2563eb;
+  padding: 0.4rem 1.2rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+.category-btn:hover {
+  background-color: #eff6ff;
+  color: #1d4ed8;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+.category-btn.active {
+  background-color: #3b82f6;
+  color: white;
+  border-color: #2563eb;
+}
+
+/* Product Card Hover Effects */
+.product-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* Carousel Scrollbar Hidden */
+.carousel-scroll {
+  display: flex;
+  overflow-x: auto;
+  gap: 1rem;
+  padding-bottom: 1rem;
+}
+.carousel-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* Utility spacing (optional additions) */
+.mt-6x {
+  margin-top: 6rem;
+}
+.text-shadow {
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}

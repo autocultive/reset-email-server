@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Signup</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Teko:wght@600&display=swap" rel="stylesheet" />
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0f0f0f;
+      color: white;
+    }
+
+    .hero {
+      background-image: url('images/banner/performance-car.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      height: 260px;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      background-color: rgba(0, 0, 0, 0.65);
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .glass {
+      backdrop-filter: blur(8px);
+      background-color: rgba(17, 17, 17, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .error {
+      color: #f87171;
+      font-size: 0.875rem;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body class="antialiased">
+
+<!-- Header -->
+<div class="relative bg-black border-b border-gray-800 py-4 px-4 md:px-6 lg:px-10 sticky top-0 z-50 flex items-center justify-center">
+  <a href="index.html" class="absolute left-6 text-yellow-300 text-sm font-semibold hover:text-yellow-200 transition">← Back to Home</a>
+  <span class="text-2xl md:text-3xl font-extrabold text-yellow-400 uppercase tracking-[0.25em] animate-pulse drop-shadow-[0_0_5px_#facc15]" style="font-family: 'Teko', sans-serif;">AUTOCULTIVE</span>
+</div>
+
+<!-- Hero Banner -->
+<section class="hero flex items-center justify-center text-center text-white mb-4">
+  <div class="hero-content">
+    <h2 class="text-4xl font-extrabold text-yellow-400">Join the Ride – Create Your Garage</h2>
+  </div>
+</section>
+
+<!-- Signup Form Card -->
+<div class="w-full max-w-md mx-auto glass p-8 rounded-xl border border-gray-700 shadow-lg shadow-yellow-500 z-10 relative">
+  <h2 class="text-3xl font-bold text-yellow-400 mb-6 text-center">🚗 Sign Up. Gear Up. Go.</h2>
+
+  <form id="signup-form" class="space-y-5">
+    <input type="text" id="name" placeholder="Full Name" class="w-full p-3 bg-gray-900 border border-gray-700 text-white rounded focus:outline-none focus:ring-2 focus:ring-yellow-400" required>
+
+    <input type="email" id="email" placeholder="Email" class="w-full p-3 bg-gray-900 border border-gray-700 text-white rounded focus:outline-none focus:ring-2 focus:ring-yellow-400" required>
+
+    <input type="password" id="password" placeholder="Create Password" class="w-full p-3 bg-gray-900 border border-gray-700 text-white rounded focus:outline-none focus:ring-2 focus:ring-yellow-400" required>
+
+    <button type="submit" class="w-full bg-yellow-400 text-black py-3 rounded font-semibold hover:bg-yellow-300 transition hover:scale-105">Sign Up with Email</button>
+  </form>
+
+  <!-- Divider -->
+  <div class="flex items-center my-6">
+    <div class="flex-grow border-t border-gray-700"></div>
+    <span class="mx-4 text-gray-400 text-sm">OR</span>
+    <div class="flex-grow border-t border-gray-700"></div>
+  </div>
+
+  <!-- Google -->
+  <div class="mt-6">
+    <button onclick="signInWithGoogle()" class="w-full flex items-center justify-center gap-3 py-2 rounded bg-white text-black font-medium hover:shadow-lg transition">
+      <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5" alt="Google" />
+      Sign up with Google
+    </button>
+  </div>
+
+  <p class="text-center text-sm text-gray-400 mt-6">
+    Already a user? <a href="login.html" class="text-yellow-400 hover:text-yellow-300 font-medium underline">Login here</a>
+  </p>
+</div>
+
+<!-- Footer -->
+<footer class="text-center text-gray-500 text-sm mt-16 mb-6">
+  &copy; 2025 CarParts Marketplace. Powered by ⚙️ and Speed.
+</footer>
+
+<!-- Firebase Auth Script -->
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyCt7256M7ocWrUk1BKXEhkwAbXxTQzoaEE",
+    authDomain: "autocultive-b70df.firebaseapp.com",
+    projectId: "autocultive-b70df",
+    storageBucket: "autocultive-b70df.appspot.com",
+    messagingSenderId: "567543720829",
+    appId: "1:567543720829:web:682f549c40773ff3b5ba14",
+    measurementId: "G-SDS626SJQW"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+
+  // 📧 Email Signup
+  document.getElementById('signup-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+      .then(() => {
+        alert("✅ Account created!");
+        window.location.href = 'login.html';
+      })
+      .catch(error => alert("❌ " + error.message));
+  });
+
+  // 🔗 Google Auth
+  function signInWithGoogle() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    firebase.auth().signInWithPopup(provider)
+      .then(() => {
+        alert("✅ Signed up with Google!");
+        window.location.href = "index.html";
+      })
+      .catch(error => alert("❌ " + error.message));
+  }
+</script>
+</body>
+</html>

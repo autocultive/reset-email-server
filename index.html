@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Car Parts Marketplace</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Orbitron:wght@600&family=Teko:wght@600&display=swap" rel="stylesheet" />
+
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to bottom, #0d0d0d, #1a1a1a);
+      color: #e5e7eb;
+    }
+    .category-btn {
+      background: #1f2937;
+      border: 1px solid #4b5563;
+      color: #facc15;
+      padding: 0.4rem 1.2rem;
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      transition: all 0.2s ease-in-out;
+      box-shadow: 0 2px 6px rgba(255, 255, 255, 0.05);
+    }
+    .category-btn:hover {
+      background-color: #111827;
+      color: #fbbf24;
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 0 15px #facc15;
+    }
+  .carousel-scroll {
+  display: flex;
+  overflow-x: auto;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  touch-action: pan-x;
+}
+
+.carousel-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+
+.carousel-scroll::-webkit-scrollbar-thumb {
+  background: #facc15;
+  border-radius: 10px;
+}
+
+.carousel-card {
+  background: #1f2937;
+  border: 1px solid #374151;
+  transition: all 0.3s ease-in-out;
+  border-radius: 0.75rem;
+  scroll-snap-align: start;
+  min-width: 220px;
+}
+
+
+    .btn-yellow {
+      background: #facc15;
+      color: #1f2937;
+    }
+    .btn-yellow:hover {
+      background: #fbbf24;
+    }
+    nav a {
+      color: #facc15;
+    }
+    nav a:hover {
+      color: #fbbf24;
+      text-shadow: 0 0 5px #fbbf24, 0 0 10px #fbbf24, 0 0 15px #fbbf24;
+    }
+    footer {
+      background: #111827;
+      color: #9ca3af;
+    }
+    header {
+      background: #1f2937;
+      color: #facc15;
+      border-bottom: 2px solid #374151;
+    }
+    select {
+      background: #111827;
+      color: #facc15;
+      border-color: #facc15;
+    }
+    input[type="text"] {
+      background: #0f172a;
+      color: #facc15;
+      border-color: #374151;
+    }
+    input[type="text"]::placeholder {
+      color: #9ca3af;
+    }
+    #backToTop {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      display: none;
+      background: #facc15;
+      color: #1f2937;
+      padding: 0.5rem 0.75rem;
+      border-radius: 9999px;
+      font-weight: bold;
+      box-shadow: 0 0 10px #facc15;
+      z-index: 999;
+      cursor: pointer;
+    }
+    #backToTop:hover {
+      background: #fbbf24;
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #1f2937;
+    }
+    ::-webkit-scrollbar-thumb {
+      background-color: #facc15;
+      border-radius: 10px;
+    }
+#user-dropdown {
+  opacity: 0;
+  visibility: hidden;
+}
+
+#user-dropdown.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+#user-avatar {
+  animation: glowPulse 2s infinite;
+}
+
+@keyframes glowPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(250, 204, 21, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 12px rgba(250, 204, 21, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(250, 204, 21, 0);
+  }
+}
+
+  </style>
+</head>
+<body class="text-gray-100 bg-gradient-to-b from-gray-900 to-black">
+  <button id="backToTop" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">↑ Top</button>
+
+  <header class="shadow sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
+<a href="index.html" class="flex items-center px-10 py-1 md:px-12 md:py-2">
+  <span class="text-xl md:text-2xl font-extrabold text-yellow-400 uppercase tracking-[0.25em] relative top-[2px] animate-pulse drop-shadow-[0_0_5px_#facc15]" style="font-family: 'Teko', sans-serif;">AUTOCULTIVE</span>
+</a>
+
+
+
+
+
+
+
+
+      <div class="w-full md:w-1/2 relative">
+        <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-yellow-300 text-lg">🔍</span>
+        <input id="searchInput" type="text" placeholder="Search car accessories..." onkeyup="searchProducts()" class="w-full pl-10 pr-4 py-2 border rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 text-sm" />
+      </div>
+  
+  <nav class="flex items-center gap-4 text-sm whitespace-nowrap">
+        <a href="index.html">🏠 Home</a>
+        <a href="wishlist.html">❤️ Wishlist</a>
+        <a href="cart.html">🛒 Cart</a><a href="login.html" id="login-link" class="text-yellow-400 hover:text-yellow-300 transition">🔐 Login</a>
+
+<!-- 🔥 Ultra-Stylish User Dropdown -->
+<div id="user-info" class="hidden relative ml-2">
+  <div class="relative inline-block" id="avatar-container">
+
+
+    <!-- Avatar -->
+    <img id="user-avatar"
+         src="https://api.dicebear.com/7.x/avataaars/svg?seed=autocultive"
+         class="w-10 h-10 rounded-full ring-2 ring-yellow-400 shadow-xl cursor-pointer hover:scale-110 transition-transform duration-300 animate-pulse"
+         alt="User Avatar" />
+
+    <!-- Dropdown Menu -->
+    <div id="user-dropdown"
+         class="absolute right-0 mt-3 w-64 rounded-2xl bg-black/90 backdrop-blur-md border border-yellow-500 shadow-2xl transition-all duration-300 ease-in-out opacity-0 invisible z-50">
+
+      <!-- Top Info -->
+      <div class="px-4 py-4 border-b border-yellow-600">
+        <div id="user-email" class="text-yellow-300 font-semibold truncate">customer@mail.com</div>
+<!-- Removed user-role line -->
+
+      </div>
+
+      <!-- Menu Options -->
+      <a href="orders.html" class="flex items-center gap-2 px-4 py-3 text-sm text-white hover:bg-yellow-700/30 transition">
+        🛍 <span>My Orders</span>
+      </a>
+
+      <button onclick="logout()" class="flex items-center gap-2 w-full text-left px-4 py-3 text-sm text-red-400 hover:bg-red-700/40 transition">
+        🚪 <span>Logout</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+      </nav>
+
+
+
+
+    </div>
+  </header>
+
+  <div class="text-center py-3 font-medium shadow-lg text-sm sm:text-base neon-text font-orbitron hover:scale-110 transition-transform duration-300" data-aos="fade-down">
+    🚗 Unleash Your Drive – Premium Upgrades for True Gearheads!
+  </div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+ <div class="flex flex-wrap gap-3 pb-6 border-b justify-start">
+  <a href="category.html?category=all" class="category-btn">All</a>
+
+
+  <a href="category.html?category=performance-upgrades" class="category-btn" title="Unleash the Beast Under Your Hood">Performance Upgrades</a>
+  <a href="category.html?category=body-kits-custom-styling" class="category-btn" title="Transform Stock to Street Legend">Body Kits & Custom Styling</a>
+  <a href="category.html?category=lighting-mods" class="category-btn" title="Light Up the Road. Own the Night.">Lighting Mods</a>
+  <a href="category.html?category=smart-tech-infotainment" class="category-btn" title="Smarter, Safer, Sleeker Drives">Smart Tech & Infotainment</a>
+  <a href="category.html?category=detailing-shine-garage" class="category-btn" title="Make Every Drive Look Showroom Fresh">Detailing & Shine Garage</a>
+  <a href="category.html?category=interior-mods-comfort" class="category-btn" title="Where Comfort Meets Custom">Interior Mods & Comfort</a>
+  <a href="category.html?category=hidden-essentials" class="category-btn" title="Small Upgrades. Big Difference.">Hidden Essentials</a>
+</div>
+
+
+  </div>
+
+  <section class="max-w-7xl mx-auto px-4 mt-10">
+    <h3 class="text-xl font-semibold mb-4 text-yellow-400">🔥 Featured Picks</h3>
+    <div id="scroll-container" class="carousel-scroll px-4 sm:px-6 lg:px-8"></div>
+
+  </section>
+
+  <section class="bg-gradient-to-r from-gray-900 to-black py-16 px-6 sm:px-10 rounded-3xl shadow-2xl my-10 text-white" data-aos="zoom-in">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-10">
+      <div class="max-w-xl">
+        <h2 class="text-4xl sm:text-5xl font-extrabold text-white leading-tight font-orbitron">
+          Built for Speed <br><span class="text-yellow-400">Powered by Passion</span>
+        </h2>
+        <p class="mt-4 text-gray-300 text-base sm:text-lg">
+          Mod it. Tune it. Rule the street. Explore pro-grade parts for true gearheads.
+        </p>
+        <a href="#product-grid" class="inline-block mt-6 bg-yellow-500 text-black px-6 py-3 rounded-full text-sm font-bold shadow hover:bg-yellow-400 transition">
+          🔧 Start Customizing
+        </a>
+      </div>
+      <img src="images/banner/performance-car.jpg" alt="Performance Car" class="w-full max-w-md mx-auto rounded-xl shadow-2xl border-2 border-yellow-400" data-aos="fade-left">
+    </div>
+  </section>
+
+  <main class="max-w-7xl mx-auto px-4 py-12">
+    <h2 class="text-3xl font-bold mb-6 text-yellow-300 text-center">🚘 Explore Top Car Accessories</h2>
+    <div class="flex justify-end mb-6">
+      <select id="sort-select" onchange="sortProducts()" class="p-2 border rounded-md text-sm">
+        <option value="">Sort by</option>
+        <option value="low">Price: Low to High</option>
+        <option value="high">Price: High to Low</option>
+      </select>
+    </div>
+    <div id="product-grid" class="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"></div>
+  </main>
+
+  <footer class="border-t mt-16 py-6 shadow-inner">
+    <div class="max-w-7xl mx-auto text-center text-sm">
+      © 2025 CarParts Market. All rights reserved. | Built with 🚗 passion
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init();
+
+    const products = [
+  {
+    id: 1,
+    name: "Performance Air Intake Kit",
+    category: "Performance Upgrades",
+    price: 3499,
+    image: "images/products/performance_intake.jpg"
+  },
+  {
+    id: 2,
+    name: "Wide Body Kit",
+    category: "Body Kits & Custom Styling",
+    price: 10999,
+    image: "images/products/wide_body_kit.jpg"
+  },
+  {
+    id: 3,
+    name: "LED Headlight Conversion Kit",
+    category: "Lighting Mods",
+    price: 2999,
+    image: "images/products/led_headlights.jpg"
+  },
+  {
+    id: 4,
+    name: "Touchscreen Infotainment System",
+    category: "Smart Tech & Infotainment",
+    price: 7999,
+    image: "images/products/infotainment.jpg"
+  },
+  {
+    id: 5,
+    name: "Ceramic Coating Kit",
+    category: "Detailing & Shine Garage",
+    price: 2299,
+    image: "images/products/ceramic_coating.jpg"
+  },
+  {
+    id: 6,
+    name: "Premium Leather Seat Covers",
+    category: "Interior Mods & Comfort",
+    price: 5999,
+    image: "images/products/seat_covers.jpg"
+  },
+  {
+    id: 7,
+    name: "OBD2 Diagnostic Scanner",
+    category: "Hidden Essentials",
+    price: 1399,
+    image: "images/products/obd_scanner.jpg"
+  },
+  {
+    id: 8,
+    name: "Cold Air Intake",
+    category: "Performance Upgrades",
+    price: 2999,
+    image: "images/products/cold_air_intake.jpg"
+  }
+];
+
+    
+
+    function displayCarousel() {
+  const scrollContainer = document.getElementById("scroll-container");
+  scrollContainer.innerHTML = products.slice(0, 6).map(p => `
+    <div class="carousel-card min-w-[200px] p-4 text-white flex flex-col justify-between" data-aos="zoom-in">
+      <img src="${p.image}" class="w-full h-32 object-cover rounded mb-2" />
+      <h4 class="text-sm font-semibold text-yellow-400">${p.name}</h4>
+      <p class="text-xs text-gray-400 mb-2">₹${p.price}</p>
+
+      <a href="product.html?id=${p.id}" class="inline-block text-center mt-auto px-3 py-1 rounded-md text-xs font-semibold text-yellow-400 border border-yellow-400 hover:bg-yellow-400 hover:text-black transition shadow hover:shadow-yellow-400">
+        🔍 More Details
+      </a>
+    </div>
+  `).join("");
+}
+
+
+    function displayProducts(list) {
+  const grid = document.getElementById("product-grid");
+  grid.innerHTML = list.map(p => `
+    <div class="product-card rounded-2xl p-5 flex flex-col justify-between" data-aos="fade-up">
+      <img src="${p.image}" alt="${p.name}" class="h-40 w-full object-cover rounded mb-4">
+      <h3 class="text-lg font-semibold text-yellow-300">${p.name}</h3>
+      <p class="text-sm text-gray-400">${p.category}</p>
+      <p class="mt-2 text-lg font-bold text-white">₹${p.price}</p>
+
+      <a href="product.html?id=${p.id}" class="inline-block text-center mt-3 px-4 py-2 rounded-md text-sm font-semibold text-yellow-400 border border-yellow-400 hover:bg-yellow-400 hover:text-black transition shadow hover:shadow-yellow-400">
+        🔍 More Details
+      </a>
+
+      <div class="flex justify-between gap-2 mt-4">
+        <button onclick='addToCart(${JSON.stringify(p)})' class="bg-yellow-500 text-black w-full py-2 rounded-md hover:bg-yellow-400 transition">Add to Cart</button>
+        <button onclick='addToWishlist(${p.id})' class="bg-pink-500 text-white px-3 rounded-md hover:bg-pink-600">❤️</button>
+      </div>
+    </div>
+  `).join("");
+}
+
+
+
+    function sortProducts() {
+      const type = document.getElementById("sort-select").value;
+      let sorted = [...products];
+      if (type === "low") sorted.sort((a, b) => a.price - b.price);
+      if (type === "high") sorted.sort((a, b) => b.price - a.price);
+      displayProducts(sorted);
+    }
+
+    function searchProducts() {
+      const query = (document.getElementById("searchInput").value || "").toLowerCase();
+      const filtered = products.filter(p => p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query));
+      displayProducts(filtered);
+    }
+
+    function addToCart(product) {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      cart.push(product);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      alert(`${product.name} added to cart! 🛒`);
+    }
+
+    function addToWishlist(id) {
+      const product = products.find(p => p.id === id);
+      let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+      wishlist.push(product);
+      localStorage.setItem("wishlist", JSON.stringify(wishlist));
+      alert(`${product.name} added to wishlist ❤️`);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      displayProducts(products);
+      displayCarousel();
+      window.addEventListener("scroll", () => {
+        document.getElementById("backToTop").style.display = window.scrollY > 300 ? "block" : "none";
+      });
+    });
+  </script>
+<!-- ─── Firebase App + Auth ─── -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyCt7256M7ocWrUk1BKXEhkwAbXxTQzoaEE",
+    authDomain: "autocultive-b70df.firebaseapp.com",
+    projectId: "autocultive-b70df",
+    storageBucket: "autocultive-b70df.appspot.com",
+    messagingSenderId: "567543720829",
+    appId: "1:567543720829:web:682f549c40773ff3b5ba14"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+
+  const loginLink = document.getElementById("login-link");
+  const userInfo  = document.getElementById("user-info");
+  const userEmail = document.getElementById("user-email");
+
+  auth.onAuthStateChanged(user => {
+    if (user) {
+      const isSeller = user.displayName?.toLowerCase() === "seller";
+      if (userEmail) userEmail.textContent = user.email ?? "Account";
+      if (userInfo) userInfo.classList.remove("hidden");
+      if (loginLink) loginLink.classList.add("hidden");
+
+      const dashboardLink = document.getElementById("dashboard-link");
+      const ordersLink = document.getElementById("orders-link");
+      const userRole = document.getElementById("user-role");
+
+      
+      if (dashboardLink) dashboardLink.style.display = isSeller ? "block" : "none";
+      if (ordersLink) ordersLink.style.display = isSeller ? "none" : "block";
+    } else {
+      if (userInfo) userInfo.classList.add("hidden");
+      if (loginLink) loginLink.classList.remove("hidden");
+    }
+  });
+
+  function logout() {
+    auth.signOut().then(() => {
+      alert("👋 Logged out!");
+      location.reload();
+    });
+  }
+</script>
+
+<!-- ─── Dropdown Toggle on Avatar Click ─── -->
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const avatarContainer = document.getElementById("avatar-container");
+    const dropdown = document.getElementById("user-dropdown");
+
+    document.addEventListener("click", (e) => {
+      if (avatarContainer.contains(e.target)) {
+        dropdown.classList.toggle("visible");
+        dropdown.classList.toggle("opacity-100");
+        dropdown.classList.toggle("invisible");
+        dropdown.classList.toggle("opacity-0");
+      } else {
+        dropdown.classList.remove("visible", "opacity-100");
+        dropdown.classList.add("invisible", "opacity-0");
+      }
+    });
+  });
+</script>
+
+
+</body>
+</html>

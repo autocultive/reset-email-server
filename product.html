@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Futuristic Product</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at top left, #0d0d0d, #111827);
+      color: #fff;
+    }
+    .orbitron {
+      font-family: 'Orbitron', sans-serif;
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0 25px rgba(250, 204, 21, 0.2), 0 0 5px rgba(255, 255, 255, 0.05);
+    }
+    .glow-border {
+      border: 2px solid #facc15;
+      box-shadow: 0 0 20px #facc15, 0 0 10px #facc15 inset;
+    }
+    .spec-pill {
+      background: linear-gradient(to right, #1c1917, #292524);
+      border: 1px solid #facc15;
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      color: #facc15;
+      font-weight: 600;
+      box-shadow: 0 0 10px #facc1533;
+      text-shadow: 0 0 3px #facc15;
+    }
+    .product-img:hover {
+      transform: rotateY(8deg) scale(1.05);
+    }
+    .btn-glow {
+      background: linear-gradient(to right, #facc15, #eab308);
+      color: #000;
+      font-weight: bold;
+      box-shadow: 0 0 10px #facc15, 0 0 20px #eab308;
+      transition: all 0.3s ease-in-out;
+    }
+    .btn-glow:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 20px #facc15, 0 0 40px #eab308;
+    }
+    nav a {
+      color: #facc15;
+      transition: all 0.3s ease;
+    }
+    nav a:hover {
+      color: #fbbf24;
+      text-shadow: 0 0 6px #fbbf24, 0 0 12px #fbbf24, 0 0 18px #fbbf24;
+    }
+  </style>
+</head>
+<body class="pb-20">
+
+  <!-- Header (Matching Homepage) -->
+ <header class="shadow sticky top-0 z-50 bg-[#1f2937] border-b-2 border-gray-700">
+<link href="https://fonts.googleapis.com/css2?family=Teko:wght@600&display=swap" rel="stylesheet" />
+
+  <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
+    <a href="index.html" class="flex items-center px-10 py-1 md:px-12 md:py-2">
+      <span class="text-xl md:text-2xl font-extrabold text-yellow-400 uppercase tracking-[0.25em] relative top-[2px] animate-pulse drop-shadow-[0_0_5px_#facc15]" style="font-family: 'Teko', sans-serif;">
+        AUTOCULTIVE
+      </span>
+    </a>
+
+    <div class="w-full md:w-1/2 relative">
+      <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-yellow-300 text-lg">🔍</span>
+      <input id="searchInput" type="text" placeholder="Search car accessories..." class="w-full pl-10 pr-4 py-2 border rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 text-sm bg-[#0f172a] text-yellow-400 border-gray-600 placeholder-gray-400" />
+    </div>
+
+    <nav class="flex items-center gap-4 text-sm whitespace-nowrap">
+      <a href="index.html">🏠 Home</a>
+      <a href="wishlist.html">❤️ Wishlist</a>
+      <a href="cart.html">🛒 Cart</a>
+      <a href="login.html">🔐 Login</a>
+    </nav>
+  </div>
+</header>
+
+
+
+
+  <!-- Hero Banner -->
+  <section class="relative h-72 md:h-80 flex items-center justify-center bg-[url('images/hero_bodykit.jpg')] bg-cover bg-center">
+    <div class="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-yellow-800/60"></div>
+    <div class="relative z-10 text-center">
+      <h2 class="orbitron text-5xl text-yellow-300 font-extrabold mb-2 drop-shadow-lg">Born to Mod. Built to Roar.</h2>
+      <p id="quoteTagline" class="text-yellow-100 text-lg tracking-wider">Loading quote...</p>
+    </div>
+  </section>
+
+  <!-- Product Details -->
+  <main class="max-w-6xl mx-auto mt-12 px-4 grid md:grid-cols-2 gap-10 items-start">
+    <!-- Left: 3D Image Card -->
+    <div class="glass-card p-6 rounded-2xl transform transition-transform duration-300 hover:scale-105 glow-border">
+      <img src="images/products/sample_kit.jpg" alt="Product Image" class="w-full h-[350px] object-contain rounded-xl product-img transition-transform duration-300" />
+      <div class="mt-4 flex space-x-2">
+        <img src="images/products/sample_kit.jpg" class="h-16 w-16 object-cover rounded-lg border border-yellow-500 cursor-pointer hover:scale-110 transition" />
+        <img src="images/products/sample_kit.jpg" class="h-16 w-16 object-cover rounded-lg border border-yellow-500 cursor-pointer hover:scale-110 transition" />
+      </div>
+    </div>
+
+    <!-- Right: Product Info -->
+    <div class="glass-card p-8 rounded-2xl space-y-6">
+      <h1 class="text-4xl orbitron text-yellow-300 font-bold tracking-wide">Cyber Body Kit Pro</h1>
+      <p class="text-yellow-200">Category: <span class="text-yellow-300">Exterior Mods</span></p>
+
+      <p class="text-white text-3xl font-bold">₹15,999</p>
+
+      <div class="grid grid-cols-2 gap-4 mt-4">
+        <div class="spec-pill">🚗 Model: Baleno</div>
+        <div class="spec-pill">📆 Years: 2017–2022</div>
+        <div class="spec-pill">🏷️ Brand: NeoTuning</div>
+        <div class="spec-pill">📦 In Stock</div>
+      </div>
+
+      <div class="text-sm text-yellow-200 mt-6 space-y-1">
+        <p>✔ Ultra-durable ABS material</p>
+        <p>✔ Easy bolt-on installation</p>
+        <p>✔ Precision fit design</p>
+        <p>✔ Verified seller & returns</p>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-4 pt-6">
+        <button class="btn-glow w-full sm:w-auto px-6 py-2 rounded font-semibold">🛒 Add to Cart</button>
+        <button class="bg-pink-600 text-white px-6 py-2 rounded font-semibold hover:bg-pink-700 w-full sm:w-auto transition">❤️ Wishlist</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Random Car Movie Quotes Script -->
+  <script>
+    const movieQuotes = [
+      "“I live my life a quarter mile at a time.” – Fast & Furious",
+      "“There’s a point at 7,000 RPM… everything fades.” – Ford v Ferrari",
+      "“Speed. I am speed.” – Cars",
+      "“The car is an extension of the driver.” – Initial D",
+      "“You can’t break a rule that doesn’t exist.” – Need for Speed",
+      "“I just can’t walk away from a ride like that.” – Gone in 60 Seconds",
+      "“What’s the retail on one of those?” – “More than you can afford, pal.” – Fast & Furious",
+      "“Ask any racer. It doesn’t matter if you win by an inch or a mile.” – Fast & Furious",
+      "“Let’s make some money.” – Tokyo Drift"
+    ];
+    const randomQuote = movieQuotes[Math.floor(Math.random() * movieQuotes.length)];
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("quoteTagline").textContent = randomQuote;
+    });
+  </script>
+
+</body>
+</html>

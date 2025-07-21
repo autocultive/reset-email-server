@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Upload Product | AUTOCULTIVE</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .fade-in {
+      animation: fadeIn 0.5s ease-in;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+  <script>
+    const seller = JSON.parse(localStorage.getItem("loggedInSeller"));
+    if (!seller) {
+      alert("⛔ Please log in as a seller first.");
+      window.location.href = "seller-login.html";
+    }
+  </script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+  <!-- Header -->
+  <header class="bg-white shadow sticky top-0 z-50">
+    <div class="max-w-4xl mx-auto px-4 py-5 flex justify-between items-center">
+      <div>
+        <h1 class="text-2xl font-bold text-blue-700">📤 Upload Product</h1>
+        <p class="text-sm text-gray-500">Logged in as: <span id="sellerInfo" class="font-semibold"></span></p>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="seller-dashboard.html" class="text-blue-600 hover:underline text-sm">← Back to Dashboard</a>
+        <button onclick="logoutSeller()" class="text-red-500 hover:underline text-sm">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Upload Form -->
+  <main class="max-w-4xl mx-auto px-4 py-10">
+    <div class="bg-white p-6 rounded-xl shadow fade-in">
+      <h2 class="text-xl font-bold mb-4">Add New Product</h2>
+      <form id="uploadForm" class="space-y-6">
+
+        <input type="text" id="name" placeholder="Product Name" required class="w-full p-3 border rounded">
+
+        <input type="url" id="image" placeholder="Image URL" required class="w-full p-3 border rounded" oninput="previewImage()">
+
+        <div id="previewBox" class="hidden border rounded p-2">
+          <img id="previewImg" class="max-h-48 mx-auto" alt="Image Preview">
+        </div>
+
+        <input type="number" id="price" placeholder="Price (INR)" required class="w-full p-3 border rounded" min="1">
+
+        <select id="category" required class="w-full p-3 border rounded">
+          <option value="">Select Category</option>
+          <option value="Engine">Engine</option>
+          <option value="Suspension">Suspension</option>
+          <option value="Body Kits">Body Kits</option>
+          <option value="Tyres">Tyres</option>
+          <option value="Lights">Lights</option>
+        </select>
+
+        <div>
+          <textarea id="description" placeholder="Description (max 500 chars)" rows="3" maxlength="500" required class="w-full p-3 border rounded" oninput="updateCharCount()"></textarea>
+          <div class="text-right text-sm text-gray-500 mt-1" id="charCount">0 / 500</div>
+        </div>
+
+        <button type="submit" class="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 w-full">Upload Product</button>
+
+      </form>
+    </div>
+  </main>
+
+  <!-- Scripts -->
+  <script>
+    // Display seller info
+    const sellerInfo = document.getElementById("sellerInfo");
+    if (sellerInfo && seller) {
+      sellerInfo.textContent = `${seller.name} (${seller.email})`;
+    }
+
+    // Logout
+    function logoutSeller() {
+      localStorage.removeItem("loggedInSeller");
+      alert("👋 Logged out.");
+      window.location.href = "seller-login.html";
+    }
+
+    // Live character count
+    function updateCharCount() {
+      const desc = document.getElementById("description").value;
+      document.getElementById("charCount").textContent = `${desc.length} / 500`;
+    }
+
+    // Preview image
+    function previewImage() {
+      const url = document.getElementById("image").value;
+      const previewBox = document.getElementById("previewBox");
+      const previewImg = document.getElementById("previewImg");
+      if (url.match(/(https?:\/\/.*\.(?:png|jpg|jpeg|gif))/i)) {
+        previewBox.classList.remove("hidden");
+        previewImg.src = url;
+      } else {
+        previewBox.classList.add("hidden");
+      }
+    }
+
+    // Upload handler
+    document.getElementById("uploadForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const image = document.getElementById("image").value.trim();
+      const price = parseInt(document.getElementById("price").value);
+      const category = document.getElementById("category").value.trim();
+      const description = document.getElementById("description").value.trim();
+
+      if (!name || !image || !price || !category || !description) {
+        return alert("❌ Please fill all fields correctly.");
+      }
+
+      const uploads = JSON.parse(localStorage.getItem("uploads")) || [];
+      if (uploads.find(p => p.name === name)) {
+        return alert("⚠️ Product with this name already exists.");
+      }
+
+      const newProduct = {
+        id: Date.now(),
+        name,
+        image,
+        price,
+        category,
+        description,
+        sellerEmail: seller.email,
+        sellerName: seller.name,
+        sku: "SKU" + Date.now(),
+        uploadDate: new Date().toLocaleString()
+      };
+
+      uploads.push(newProduct);
+      localStorage.setItem("uploads", JSON.stringify(uploads));
+
+      alert("✅ Product uploaded successfully!");
+      document.getElementById("uploadForm").reset();
+      document.getElementById("previewBox").classList.add("hidden");
+      updateCharCount();
+      setTimeout(() => window.location.href = "seller-dashboard.html", 1000);
+    });
+  </script>
+</body>
+</html>
